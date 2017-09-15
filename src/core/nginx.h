@@ -10,8 +10,8 @@
 
 
 #define nginx_version      1013006
-#define NGINX_VERSION      "1.13.6"
-#define NGINX_VER          "nginx/" NGINX_VERSION
+#define NGINX_VERSION      "1.0.0"
+#define NGINX_VER          "ttotoo/" NGINX_VERSION
 
 #ifdef NGX_BUILD
 #define NGINX_VER_BUILD    NGINX_VER " (" NGX_BUILD ")"

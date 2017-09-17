@@ -84,6 +84,7 @@ if [ $HTTP = YES ]; then
                          src/http/ngx_http_request.c \
                          src/http/ngx_http_parse.c \
                          src/http/modules/ngx_http_log_module.c \
+                         src/http/modules/ngx_http_req_status_module.c \
                          src/http/ngx_http_request_body.c \
                          src/http/ngx_http_variables.c \
                          src/http/ngx_http_script.c \

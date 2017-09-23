@@ -112,6 +112,8 @@ static u_char *ngx_http_log_time(ngx_http_request_t *r, u_char *buf,
     ngx_http_log_op_t *op);
 static u_char *ngx_http_log_iso8601(ngx_http_request_t *r, u_char *buf,
     ngx_http_log_op_t *op);
+static u_char *ngx_http_log_time_custom(ngx_http_request_t *r, u_char *buf,
+    ngx_http_log_op_t *op);
 static u_char *ngx_http_log_msec(ngx_http_request_t *r, u_char *buf,
     ngx_http_log_op_t *op);
 static u_char *ngx_http_log_request_time(ngx_http_request_t *r, u_char *buf,
@@ -216,7 +218,7 @@ static ngx_str_t  ngx_http_access_log = ngx_string(NGX_HTTP_LOG_PATH);
 
 
 static ngx_str_t  ngx_http_combined_fmt =
-    ngx_string("$remote_addr~$remote_user~[$time_local]~\"$request\"~$status~$body_bytes_sent"
+    ngx_string("$remote_addr~$remote_user~$time_iso8601~\"$request\"~$status~$body_bytes_sent"
                "~\"$http_referer\"~\"$http_user_agent\"~\"$request_body\"");
 
 
@@ -226,6 +228,8 @@ static ngx_http_log_var_t  ngx_http_log_vars[] = {
                           ngx_http_log_time },
     { ngx_string("time_iso8601"), sizeof("1970-09-28T12:00:00+06:00") - 1,
                           ngx_http_log_iso8601 },
+    { ngx_string("time_custom"), sizeof("1970-09-28T12:00:00+06:00") - 1,
+                          ngx_http_log_time_custom },
     { ngx_string("msec"), NGX_TIME_T_LEN + 4, ngx_http_log_msec },
     { ngx_string("request_time"), NGX_TIME_T_LEN + 4,
                           ngx_http_log_request_time },
@@ -808,6 +812,13 @@ ngx_http_log_time(ngx_http_request_t *r, u_char *buf, ngx_http_log_op_t *op)
 
 static u_char *
 ngx_http_log_iso8601(ngx_http_request_t *r, u_char *buf, ngx_http_log_op_t *op)
+{
+    return ngx_cpymem(buf, ngx_cached_http_log_iso8601.data,
+                      ngx_cached_http_log_iso8601.len);
+}
+
+static u_char *
+ngx_http_log_time_custom(ngx_http_request_t *r, u_char *buf, ngx_http_log_op_t *op)
 {
     return ngx_cpymem(buf, ngx_cached_http_log_iso8601.data,
                       ngx_cached_http_log_iso8601.len);
